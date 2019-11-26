@@ -1,5 +1,7 @@
 import React from "react"
 import { Nav, NavItem, NavLink} from 'reactstrap'
+import "bootswatch/dist/spacelab/bootstrap.min.css"; 
+
 import { BrowserRouter as  Router, Route, Link, Switch } from 'react-router-dom'
 import Home from './pages/Home.js'
 import EditApartment from './pages/EditApartment.js'
@@ -80,15 +82,35 @@ class Main extends React.Component {
     return (
         <React.Fragment>
             <Router>
-                <div>
-                    <div>
-                      <Link to="/">Home</Link>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a className="navbar-brand" href="">Apartment Finder</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div className="collapse navbar-collapse" id="navbarColor02">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <Nav>
+                                    <NavItem>
+                                        <Link to="/" className="nav-link">Home</Link>
+                                    </NavItem>
+                                </Nav>
+                            </li>
+                            {!logged_in ? null: 
+                            <li className="nav-item active">
+                                <Nav>
+                                    <NavItem>
+                                        <Link to="/new-apartment" className = "nav-link">New Apartment</Link>
+                                    </NavItem>
+                                </Nav>
+                            </li>}
+                            <li className="nav-item">
+                                <a className="nav-link" href={logged_in ? sign_out_route: sign_in_route}>{logged_in ? "Sign Out" : "Sign In"}</a>
+                            </li>
+                        </ul>
                     </div>
-                    {!logged_in ? null: <div><Link to="/new-apartment">New Apartment</Link></div>}
-                    <div>
-                        <a href={logged_in ? sign_out_route: sign_in_route}>{logged_in ? "Sign Out" : "Sign In"}</a>
-                    </div>
-                </div>
+                </nav>
                 <Route exact path="/" render = {(props)=><Home {...props} apartments = {apartments} currentUser = {current_user_id} />} />
                 <Switch>
                     {!logged_in ? null : <Route path = "/new-apartment" render = {(props) => <NewApartment {...props} onSubmit = {this.addApartment}/>} />}
