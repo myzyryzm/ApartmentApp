@@ -51,6 +51,23 @@ class Main extends React.Component {
         })
     }
 
+    deleteApartment = (id) => {
+        let url = "/apartments/" + id.toString()
+        return fetch(url, {
+            method: 'DELETE'
+        }).then(resp => {
+            if(resp.status === 400){
+                console.log("error")
+                // response.json().then(paylod => {
+                //     this.setState({error: payload.error})
+                // })
+            }
+            else {
+                this.getApartments()
+            }
+        })
+    }
+
     render () {
         const {
           logged_in,
@@ -73,13 +90,11 @@ class Main extends React.Component {
                     </div>
                 </div>
                 <Route exact path="/" render = {(props)=><Home {...props} apartments = {apartments} currentUser = {current_user_id} />} />
-                {!logged_in ? null:
-                    <Switch>
-                        <Route path = "/new-apartment" render = {(props) => <NewApartment onSubmit = {this.addApartment} {...props}/>} />
-                        <Route path = "/apartment/:id" render = {(props) => <ShowApartment currentUser = {current_user_id} {...props}/>} />
-                        <Route path = "/edit-apartment/:id/edit" render = {(props) => <EditApartment {...props} onSubmit = {this.editApartment} />} />
-                    </Switch>
-                }
+                <Switch>
+                    {!logged_in ? null : <Route path = "/new-apartment" render = {(props) => <NewApartment {...props} onSubmit = {this.addApartment}/>} />}
+                    <Route path = "/apartment/:id" render = {(props) => <ShowApartment {...props} currentUser = {current_user_id} deleteApartment = {this.deleteApartment} />} />
+                    {!logged_in ? null : <Route path = "/edit-apartment/:id/edit" render = {(props) => <EditApartment {...props} onSubmit = {this.editApartment} />} />}
+                </Switch>
             </Router>
         </React.Fragment>
         );

@@ -1,12 +1,13 @@
 import React from "react"
-import {Link} from "react-router-dom"
+import {Link, Redirect} from "react-router-dom"
 
 export default class ShowApartment extends React.Component {
     constructor(props){
         super(props)
         this.state = {
             currentApt: null,
-            aptId: -1
+            aptId: -1,
+            deleteSuccess: false 
         }
     }
 
@@ -23,9 +24,20 @@ export default class ShowApartment extends React.Component {
                 this.setState({currentApt: apt, aptId: id})})
     }
 
+    localDelete = () => {
+        const{aptId} = this.state
+        if(aptId < 1){
+            return
+        }
+        const{deleteApartment} = this.props
+        deleteApartment(aptId).then(() => {
+            this.setState({deleteSuccess:true})
+        })
+    }
+
     render () {
         this.getCurrentApt()
-        const{currentApt} = this.state
+        const{currentApt, deleteSuccess} = this.state
         const{currentUser} = this.props
         if(currentApt == null){
             return (
@@ -36,7 +48,12 @@ export default class ShowApartment extends React.Component {
             <div>
                 <h1>{currentApt.id}</h1> 
                 {currentUser != currentApt.user_id ? null :
-                <div><Link to={`/edit-apartment/${currentApt.id}/edit`}>Edit</Link></div>}
+                <div>
+                    {deleteSuccess ? <Redirect to="/" />: null}
+                    <Link to={`/edit-apartment/${currentApt.id}/edit`}>Edit</Link>
+                    <button onClick = {this.localDelete}>Delete</button>
+                </div>
+                }
             </div>
         );
     }

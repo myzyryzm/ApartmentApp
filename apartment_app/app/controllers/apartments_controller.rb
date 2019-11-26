@@ -16,7 +16,7 @@ class ApartmentsController < ApplicationController
     end
 
     def show
-        apartment = current_user.apartments.find params[:id]
+        apartment = Apartment.find params[:id]
         render json: apartment
     end
 
@@ -24,6 +24,15 @@ class ApartmentsController < ApplicationController
         apartment = current_user.apartments.find params[:id]
         apartment.update_attributes(apartment_params)
         render json: apartment, status: 201
+    end
+
+    def destroy
+        apartment = current_user.apartments.find params[:id]
+        if apartment.destroy
+            render json: apartment
+        else
+            render json: {error: 'could not delete'}, status: 400
+        end
     end
 
     private
