@@ -1,11 +1,11 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { Nav, NavItem, NavLink} from 'reactstrap'
 import { BrowserRouter as  Router, Route, Link, Switch } from 'react-router-dom'
 import Home from './pages/Home.js'
 import EditApartment from './pages/EditApartment.js'
+import NewApartment from "./pages/NewApartment.js"
+import ShowApartment from "./pages/ShowApartment"
 class Main extends React.Component {
-
     constructor(props){
         super(props)
         this.state = {
@@ -22,14 +22,33 @@ class Main extends React.Component {
                 this.setState({apartments: apts})})
     }
 
-    getApartment = (id) => {
-        const{apartments} = this.state
-        for(let i = 0; i < apartments.length; i++){
-            if(apartments[i].id === id){
-                return apartments[i]
+    addApartment = (attrs) => {
+        return fetch("/apartments", {
+            method: 'POST',
+            headers: {
+                "Content-type":"application/json"
+            },
+            body: JSON.stringify({apartment:attrs})
+        }).then(response => {
+            if(response.status === 201){
+                this.getApartments()
             }
-        }
-        return null
+        })
+    }
+
+    editApartment = (attrs, id) => {
+        let url = "/apartments/" + id.toString()
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                "Content-type":"application/json"
+            },
+            body: JSON.stringify({apartment:attrs})
+        }).then(response => {
+            if(response.status === 201){
+                this.getApartments()
+            }
+        })
     }
 
     render () {
@@ -56,7 +75,9 @@ class Main extends React.Component {
                 <Route exact path="/" render = {(props)=><Home {...props} apartments = {apartments} currentUser = {current_user_id} />} />
                 {!logged_in ? null:
                     <Switch>
-                        <Route path = "/edit-apartment/:id" render = {(props) => <EditApartment {...props} getApartment = {this.getApartment} />} />
+                        <Route path = "/new-apartment" render = {(props) => <NewApartment onSubmit = {this.addApartment} {...props}/>} />
+                        <Route path = "/apartment/:id" render = {(props) => <ShowApartment currentUser = {current_user_id} {...props}/>} />
+                        <Route path = "/edit-apartment/:id/edit" render = {(props) => <EditApartment {...props} onSubmit = {this.editApartment} />} />
                     </Switch>
                 }
             </Router>
