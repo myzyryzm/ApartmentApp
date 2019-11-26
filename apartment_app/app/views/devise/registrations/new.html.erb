@@ -4,6 +4,16 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: true, autocomplete: "first-name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name, autofocus: true, autocomplete: "first-name" %>
+  </div>
+
+  <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
@@ -19,6 +29,31 @@
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :phone_number %><br />
+    <%= f.phone_field :phone_number, autofocus: true, autocomplete: "phone-number" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :first_contact_hour %><br />
+    <%= f.number_field :first_contact_hour, min:1, max:12 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :first_contact_hour_period %><br />
+    <%= f.select :first_contact_hour_period, [['AM','am'],['PM','pm']] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_contact_hour %><br />
+    <%= f.number_field :end_contact_hour, min:1, max:12 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_contact_hour_period %><br />
+    <%= f.select :end_contact_hour_period, [['AM','am'],['PM','pm']] %>
   </div>
 
   <div class="actions">

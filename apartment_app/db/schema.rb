@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_25_221411) do
+ActiveRecord::Schema.define(version: 2019_11_26_182718) do
 
   create_table "apartments", force: :cascade do |t|
     t.string "street_a"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2019_11_25_221411) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "phone_number"
+    t.decimal "first_contact_hour"
+    t.string "first_contact_hour_period"
+    t.decimal "end_contact_hour"
+    t.string "end_contact_hour_period"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
