@@ -1,7 +1,7 @@
 # ApartmentApp
 Here is my apartment app that I created in class from November 25-27 2019
 
-#Stories
+# Stories
 Story: As an un-registered guest on the website, I can go to a web page and see a list of available apartments.
 
 Apartments have: two street designations, a city, postal code, state, and country, in a addition to a building manager's contact info, which includes: name, phone number, and hours to contact
