@@ -10,9 +10,11 @@ export default class Home extends React.Component {
             </li>
         })
         return (
-          <ul>
-            {apt}
-          </ul>
+          <div className = "layout">
+            <ul>
+              {apt}
+            </ul>
+          </div>
         );
     }
 }
