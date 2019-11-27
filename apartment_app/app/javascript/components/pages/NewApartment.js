@@ -38,7 +38,6 @@ export default class NewApartment extends React.Component {
               <div>
                   <label>Street</label>
                   <input name="street_a" value = {street_a} onChange = {this.onChange} type = 'text' />
-
               </div>
               <div>
                 <label>City</label>
