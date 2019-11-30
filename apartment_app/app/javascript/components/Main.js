@@ -3,7 +3,8 @@ import { Nav, NavItem, NavLink} from 'reactstrap'
 import "bootswatch/dist/spacelab/bootstrap.min.css"; 
 
 import { BrowserRouter as  Router, Route, Link, Switch } from 'react-router-dom'
-import Home from './pages/Home.js'
+import Apartments from './pages/Apartments'
+import Home from './pages/Home'
 import EditApartment from './pages/EditApartment.js'
 import NewApartment from "./pages/NewApartment.js"
 import ShowApartment from "./pages/ShowApartment"
@@ -80,10 +81,14 @@ class Main extends React.Component {
         const {apartments} = this.state
 
     return (
-        <React.Fragment>
+        <div className = "layout">
             <Router>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <a className="navbar-brand" href="">Apartment Finder</a>
+                    <Nav>
+                        <NavItem>
+                            <Link to="/" className="navbar-brand">Home</Link>
+                        </NavItem>
+                    </Nav>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -93,7 +98,7 @@ class Main extends React.Component {
                             <li className="nav-item active">
                                 <Nav>
                                     <NavItem>
-                                        <Link to="/" className="nav-link">Home</Link>
+                                        <Link to="/apartment" className="nav-link">Apartments</Link>
                                     </NavItem>
                                 </Nav>
                             </li>
@@ -111,14 +116,15 @@ class Main extends React.Component {
                         </ul>
                     </div>
                 </nav>
-                <Route exact path="/" render = {(props)=><Home {...props} apartments = {apartments} currentUser = {current_user_id} />} />
+                <Route exact path="/" render = {()=><Home/>} />
+                <Route exact path="/apartment" render = {(props)=><Apartments {...props} apartments = {apartments} currentUser = {current_user_id} />} />
                 <Switch>
                     {!logged_in ? null : <Route path = "/new-apartment" render = {(props) => <NewApartment {...props} onSubmit = {this.addApartment}/>} />}
                     <Route path = "/apartment/:id" render = {(props) => <ShowApartment {...props} currentUser = {current_user_id} deleteApartment = {this.deleteApartment} />} />
                     {!logged_in ? null : <Route path = "/edit-apartment/:id/edit" render = {(props) => <EditApartment {...props} onSubmit = {this.editApartment} />} />}
                 </Switch>
             </Router>
-        </React.Fragment>
+        </div>
         );
     }
 }
